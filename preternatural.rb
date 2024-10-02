@@ -2,8 +2,8 @@ class Preternatural < Formula
      desc "Preternatural CLI tool"
      homepage "https://github.com/PreternaturalAI/hombrew-preternatural"
      url "https://github.com/PreternaturalAI/cli-binary/raw/refs/heads/master/Sources/preternatural"
-     sha256 "2f72b8ba6ea772b316a4629bb14484c12a101190066bd441d0ff90b122a3063a"
-     version "0.0.25"
+     sha256 "d6bead16941c3e4f24b8cb645443ba2dd7e948c1e8179a41e2f7e1faaf09d70a"
+     version "0.0.26"
 
      def install
        bin.install "preternatural"
