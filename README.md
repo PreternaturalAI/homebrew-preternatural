@@ -4,7 +4,7 @@
 
 ## Installation
 
-### `brew`
+### `brew` (Recommended)
 
 1. Install brew if not already installed using the `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` command.
 2. Add the `PreternaturalAI/preternatural` tap using the `brew tap PreternaturalAI/preternatural` command.
@@ -17,6 +17,9 @@
 3. Install preternatural binary via mint: `mint install PreternaturalAI/cli-binary preternatural`
 
 You can now use the `preternatural` command from your command line. See all the available options using `preternatural --help`.
+
+> [!NOTE]  
+> After installing `preternatural` with `mint`, there are some issues related to interactive input when running the `archive` subcommand. Thus, it is recommended to install `preternatural` via `brew` instead.
 
 ## Commands
 
@@ -31,6 +34,7 @@ preternatural build [options]
 Options:
 - `--derived-data-path <path>`: Path to the derived data folder
 - `--build-all-platforms`: Builds for all supported platforms
+- `--verbose`: Enable verbose logging
 - `--isolated`: Prioritises building standalone Xcode projects instead of the referenced projects in an Xcode Workspace
 - `--update-developer-team`: Autoconfigure the developer team for Xcode projects. Warning - this option updates the Xcode project with a new developer team
 - `--attempt-automatic-fixes`: If build fails for a project or workspace, attempts to fix the build by updating code signing and dependecies. This does not update the original Xcode project or workspace, it makes a temporary copy and tries updating and building the temporary copy
@@ -52,6 +56,7 @@ preternatural update [options]
 Options:
 - `--derived-data-path <path>`: Path to the derived data folder
 - `--verify`: Verify the update process. Builds any projects / packages / workspaces that had changes
+- `--verbose`: Enable verbose logging
 - `--build-all-platforms`: Builds for all supported platforms
 - `--isolated`: Prioritises building standalone Xcode projects instead of the referenced projects in an Xcode Workspace
 - `--update-developer-team`: Autoconfigure the developer team for Xcode projects. Warning - this option updates the Xcode project with a new developer team
