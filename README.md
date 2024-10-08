@@ -4,4 +4,4 @@
 
 ## Note
 
-This repository is a custom tap for accessing the `preternatural` command line tool via homebrew. Documentation for the command along with installation instructions can be found [here](https://github.com/PreternaturalAI/cli-binary/blob/master/README.md).
+This repository is a custom tap for accessing the `preternatural` command line tool via homebrew. Documentation for the command along with installation instructions can be found [here](https://github.com/PreternaturalAI/CLI-release/blob/master/README.md).
