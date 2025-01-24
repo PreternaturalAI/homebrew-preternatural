@@ -1,9 +1,9 @@
 class LintMySwift < Formula
   desc "Lint My Swift CLI Tool"
   homepage "https://github.com/PreternaturalAI/hombrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/lint-my-swift-0.1.6/lint-my-swift.artifactbundle.zip"
-  sha256 "4e66b6cd23068ec165959d565b54e8f7dc712fe8d7aef3325c49213004b7c3a6"
-  version "0.1.6"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/lint-my-swift-0.1.7/lint-my-swift.artifactbundle.zip"
+  sha256 "8f04e5b22a4880cd4d76109c31d282449d3a1c486ea83c501d44bf2918b684ab"
+  version "0.1.7"
 
   def install
     system "unzip", "-o", cached_download
