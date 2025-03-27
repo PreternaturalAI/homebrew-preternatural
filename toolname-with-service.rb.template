@@ -27,4 +27,14 @@ class <classname> < Formula
       end
     end
   end
+
+  service do
+    run [opt_bin/"<daemonname>"]
+    run_type :immediate
+    keep_alive true
+    run_at_load true
+    require_root true
+    log_path var/"log/<daemonname>.log"
+    error_log_path var/"log/<daemonname>.err.log"
+  end
 end
