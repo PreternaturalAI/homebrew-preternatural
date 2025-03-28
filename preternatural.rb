@@ -28,27 +28,6 @@ class Preternatural < Formula
     end
   end
 
-  def post_install
-    ohai "Starting the preternatural daemon service..."
-    ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
-
-    # Use AppleScript to prompt for admin rights safely
-    script = <<~APPLESCRIPT
-      do shell script "brew services start preternatural" with administrator privileges
-    APPLESCRIPT
-    
-    system "osascript", "-e", script
-    
-    unless $?.success?
-      opoo "Failed to start the preternatural daemon service."
-      ohai "You can manually start it later with: sudo brew services start preternatural"
-    else
-      ohai "preternatural daemon service started successfully!"
-      ohai "You can stop the daemon using `sudo brew services stop preternatural`"
-      ohai "You can restart the daemon using `sudo brew services restart preternatural`"
-    end
-  end
-
   service do
     run [opt_bin/"preternaturald"]
     run_type :immediate
