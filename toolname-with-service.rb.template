@@ -28,6 +28,27 @@ class <classname> < Formula
     end
   end
 
+  def post_install
+    ohai "Starting the <toolname> daemon service..."
+    ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
+
+    # Use AppleScript to prompt for admin rights safely
+    script = <<~APPLESCRIPT
+      do shell script "brew services start <toolname>" with administrator privileges
+    APPLESCRIPT
+    
+    system "osascript", "-e", script
+    
+    unless $?.success?
+      opoo "Failed to start the <toolname> daemon service."
+      ohai "You can manually start it later with: sudo brew services start <toolname>"
+    else
+      ohai "<toolname> daemon service started successfully!"
+      ohai "You can stop the daemon using `sudo brew services stop <toolname>`"
+      ohai "You can restart the daemon using `sudo brew services restart <toolname>`"
+    end
+  end
+
   service do
     run [opt_bin/"<daemonname>"]
     run_type :immediate
