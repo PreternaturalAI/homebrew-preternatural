@@ -1,9 +1,9 @@
 class Preternatural < Formula
   desc "Preternatural CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.1.44/final-artifact.zip"
-  sha256 "83729ccd5eaf6dcea0db5b2688209209d320484748845a852e2270eea4b1ec3f"
-  version "0.1.44"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.1.45/final-artifact.zip"
+  sha256 "f3910d2506b403d627b28879ebbd894cf0578e1a0443c46b4ab1c909c5970e96"
+  version "0.1.45"
 
   def install
     # Unzip the main artifact bundle
@@ -36,23 +36,34 @@ class Preternatural < Formula
       return
     end
 
-    ohai "Starting the preternatural daemon service..."
-    ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
+    ohai "Checking if preternaturald is already running as root..."
 
-    # Use AppleScript to prompt for admin rights safely
-    script = <<~APPLESCRIPT
-      do shell script "brew services start preternatural" with administrator privileges
-    APPLESCRIPT
-    
-    system "osascript", "-e", script
-    
-    unless $?.success?
-      opoo "Failed to start the preternatural daemon service."
-      ohai "You can manually start it later with: sudo brew services start preternatural"
+    # Check if preternaturald is running as root
+    preternaturald_running_as_root = system("ps aux | grep preternaturald | grep -v grep | grep -q root")
+
+    if preternaturald_running_as_root
+      ohai "preternaturald is already running as root, restarting with bootstrap..."
+      system "preternatural bootstrap restart"
+      ohai "preternatural daemon restarted successfully!"
     else
-      ohai "preternatural daemon service started successfully!"
-      ohai "You can stop the daemon using `sudo brew services stop preternatural`"
-      ohai "You can restart the daemon using `sudo brew services restart preternatural`"
+      ohai "Starting the preternatural daemon service..."
+      ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
+
+      # Use AppleScript to prompt for admin rights safely
+      script = <<~APPLESCRIPT
+        do shell script "brew services start preternatural" with administrator privileges
+      APPLESCRIPT
+
+      system "osascript", "-e", script
+
+      unless $?.success?
+        opoo "Failed to start the preternatural daemon service."
+        ohai "You can manually start it later with: sudo brew services start preternatural"
+      else
+        ohai "preternatural daemon service started successfully!"
+        ohai "You can stop the daemon using `sudo brew services stop preternatural`"
+        ohai "You can restart the daemon using `sudo brew services restart preternatural`"
+      end
     end
   end
 
