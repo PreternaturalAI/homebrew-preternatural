@@ -1,9 +1,9 @@
 class Preternatural < Formula
   desc "Preternatural CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.1.46/final-artifact.zip"
-  sha256 "0afb7a529fdde489eb6cee03aadf82540a15c6aa69a6d150302f08feef0eccf5"
-  version "0.1.46"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.1.47/final-artifact.zip"
+  sha256 "572116ccb8b5ce1c613c592859464761bd2d449a6b1b7d2d89f5fde4cc447c61"
+  version "0.1.47"
 
   def install
     # Unzip the main artifact bundle
@@ -39,10 +39,10 @@ class Preternatural < Formula
     ohai "Checking if preternaturald is already running as root..."
 
     # Check if preternaturald is running as root
-    preternaturald_running_as_root = `ps aux | grep preternaturald | grep -v grep | grep root`.strip.length > 0
+    running_as_root = `ps aux | grep preternaturald | grep -v grep | grep root`.strip.length > 0
 
-    if preternaturald_running_as_root
-      ohai "preternaturald is already running as root, restarting with bootstrap..."
+    if running_as_root
+      ohai "preternaturald is already running as root, restarting with bootstrap restart..."
       system "preternatural bootstrap restart"
       ohai "preternatural daemon restarted successfully!"
     else
