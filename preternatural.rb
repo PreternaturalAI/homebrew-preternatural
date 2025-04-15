@@ -39,7 +39,7 @@ class Preternatural < Formula
     ohai "Checking if preternaturald is already running as root..."
 
     # Check if preternaturald is running as root
-    preternaturald_running_as_root = system("ps aux | grep preternaturald | grep -v grep | grep -q root")
+    preternaturald_running_as_root = `ps aux | grep preternaturald | grep -v grep | grep root`.strip.length > 0
 
     if preternaturald_running_as_root
       ohai "preternaturald is already running as root, restarting with bootstrap..."
