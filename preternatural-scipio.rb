@@ -1,9 +1,9 @@
 class PreternaturalScipio < Formula
   desc "PreternaturalScipio CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-scipio-0.0.2/final-artifact.zip"
-  sha256 "1a2448d4c8e3f317b09ca5c60fd9cd54b3ebe32e846ada676aaf416c27a17d14"
-  version "0.0.2"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-scipio-0.0.3/final-artifact.zip"
+  sha256 "50882d2d8b0adfd83eef00512f939cfca452b865e78d0f317bcff4bd3c1b81b4"
+  version "0.0.3"
 
   def install
     # Unzip the main artifact bundle
