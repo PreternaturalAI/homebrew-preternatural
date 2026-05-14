@@ -1,9 +1,9 @@
 class Preternatural < Formula
   desc "Preternatural CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.7/final-artifact.zip"
-  sha256 "babf18364f1068efeee5f5754a4eaf4929128fcfd7d755328bad35ac80287976"
-  version "0.0.7"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.8/final-artifact.zip"
+  sha256 "bc4a96ae416de4c79606db7002cb92894a71a313792d6f248a4322e031ca1f6f"
+  version "0.0.8"
 
   def install
     # Unzip the main artifact bundle
@@ -30,10 +30,10 @@ class Preternatural < Formula
 
   def post_install
     bin.children.each do |binary|
-      local_copy = Pathname.new("/usr/local/bin/#{binary.basename}")
-      if local_copy.exist? && !local_copy.symlink?
+      local_copy = "/usr/local/bin/#{binary.basename}"
+      if File.exist?(local_copy) && !File.symlink?(local_copy)
         ohai "Removing manually installed #{local_copy} to avoid PATH shadowing"
-        local_copy.delete
+        system "rm", "-f", local_copy
       end
     end
   end
