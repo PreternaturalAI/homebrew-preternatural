@@ -1,9 +1,9 @@
 class Preternatural < Formula
   desc "Preternatural CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.16/final-artifact.zip"
-  sha256 "5b2830e82976d8814d34597e559f85d59d2eb29feadd788edef8698734a589bd"
-  version "0.0.16"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.17/final-artifact.zip"
+  sha256 "d2373e2bfeba7fb25565218693373b855268d84f95c7958c39cf3a2a5bdb7864"
+  version "0.0.17"
 
   def install
     # Unzip the main artifact bundle
@@ -26,5 +26,54 @@ class Preternatural < Formula
         bin.install binary_path if File.exist?(binary_path)
       end
     end
+  end
+
+  def post_install
+    # Skip service start in CI / non-interactive environments
+    if ENV["CI"] || !$stdin.tty?
+      ohai "Skipping preternatural daemon service startup in non-interactive environment"
+      ohai "To start the service manually: sudo brew services start preternatural"
+      return
+    end
+
+    ohai "Checking if preternaturald is already running as root..."
+
+    # Check if preternaturald is running as root
+    running_as_root = `ps aux | grep preternaturald | grep -v grep | grep root`.strip.length > 0
+
+    if running_as_root
+      ohai "preternaturald is already running as root, restarting with daemon restart..."
+      system "preternatural daemon restart"
+      ohai "preternatural daemon restarted successfully!"
+    else
+      ohai "Starting the preternatural daemon service..."
+      ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
+
+      # Use AppleScript to prompt for admin rights safely
+      script = <<~APPLESCRIPT
+        do shell script "brew services start preternatural" with administrator privileges
+      APPLESCRIPT
+
+      system "osascript", "-e", script
+
+      unless $?.success?
+        opoo "Failed to start the preternatural daemon service."
+        ohai "You can manually start it later with: sudo brew services start preternatural"
+      else
+        ohai "preternatural daemon service started successfully!"
+        ohai "You can stop the daemon using `sudo brew services stop preternatural`"
+        ohai "You can restart the daemon using `sudo brew services restart preternatural`"
+      end
+    end
+  end
+
+  service do
+    run [opt_bin/"preternaturald"]
+    run_type :immediate
+    keep_alive true
+    run_at_load true
+    require_root true
+    log_path var/"log/preternaturald.log"
+    error_log_path var/"log/preternaturald.err.log"
   end
 end
