@@ -1,9 +1,9 @@
 class Preternatural < Formula
   desc "Preternatural CLI Tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.54/final-artifact.zip"
-  sha256 "1a8094e08043baae1eee42215e20b78318fb27d351dcca82ef858a96e1596b33"
-  version "0.0.54"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.55/final-artifact.zip"
+  sha256 "5775cc4096137c4adbde5c0786fd4e5a0ba65213e4f96f72041fb55b701b0f76"
+  version "0.0.55"
 
   def install
     # Unzip the main artifact bundle
