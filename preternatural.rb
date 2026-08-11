@@ -1,70 +1,40 @@
 class Preternatural < Formula
-  desc "Preternatural CLI Tool"
+  desc "Command-line development automation tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
-  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.55/final-artifact.zip"
-  sha256 "5775cc4096137c4adbde5c0786fd4e5a0ba65213e4f96f72041fb55b701b0f76"
-  version "0.0.55"
+  url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.56/final-artifact.zip"
+  version "0.0.56"
+  sha256 "5e71223b1f12ca96548ae6fd92c86406a1823f0db550ab4ba117805a20f5e12f"
 
   def install
-    # Unzip the main artifact bundle
-    system "unzip", "-o", cached_download
+    artifact_root = buildpath/"swift-brew-artifacts"
+    artifact_root.mkpath
+    system "unzip", "-q", cached_download, "-d", artifact_root
 
-    # Install executables and daemons
-    [
-      ["*-executable.zip", "-executable.zip"],
-      ["*-daemon.zip", "-daemon.zip"]
-    ].each do |glob_pattern, suffix|
-      Dir.glob(glob_pattern).each do |zip_name|
-        # Unzip the inner zip file directly
-        system "unzip", "-o", zip_name
-        
-        # Extract tool name from the zip filename
-        tool_name = File.basename(zip_name, suffix)
+    artifacts = [
+      [
+        "preternatural-executable.zip",
+        "preternatural.artifactbundle/preternatural/bin/preternatural",
+        "preternatural",
+      ],
+      [
+        "preternaturald-daemon.zip",
+        "preternaturald.artifactbundle/preternaturald/bin/preternaturald",
+        "preternaturald",
+      ],
+    ]
 
-        # Install the binary
-        binary_path = "#{tool_name}.artifactbundle/#{tool_name}/bin/#{tool_name}"
-        bin.install binary_path if File.exist?(binary_path)
-      end
+    artifacts.each do |archive, executable_path, installed_name|
+      destination = artifact_root/archive.delete_suffix(".zip")
+      destination.mkpath
+      system "unzip", "-q", artifact_root/archive, "-d", destination
+      bin.install destination/executable_path => installed_name
     end
   end
 
   def post_install
-    # Skip service start in CI / non-interactive environments
-    if ENV["CI"] || !$stdin.tty?
-      ohai "Skipping preternatural daemon service startup in non-interactive environment"
-      ohai "To start the service manually: sudo brew services start preternatural"
-      return
-    end
+    return unless File.exist?("/Library/LaunchDaemons/homebrew.mxcl.preternatural.plist")
 
-    ohai "Checking if preternaturald is already running as root..."
-
-    # Check if preternaturald is running as root
-    running_as_root = `ps aux | grep preternaturald | grep -v grep | grep root`.strip.length > 0
-
-    if running_as_root
-      ohai "preternaturald is already running as root, restarting with daemon restart..."
-      system "preternatural daemon restart"
-      ohai "preternatural daemon restarted successfully!"
-    else
-      ohai "Starting the preternatural daemon service..."
-      ohai "Installation of the daemon requires sudo access. Please enter your password in the system popup."
-
-      # Use AppleScript to prompt for admin rights safely
-      script = <<~APPLESCRIPT
-        do shell script "brew services start preternatural" with administrator privileges
-      APPLESCRIPT
-
-      system "osascript", "-e", script
-
-      unless $?.success?
-        opoo "Failed to start the preternatural daemon service."
-        ohai "You can manually start it later with: sudo brew services start preternatural"
-      else
-        ohai "preternatural daemon service started successfully!"
-        ohai "You can stop the daemon using `sudo brew services stop preternatural`"
-        ohai "You can restart the daemon using `sudo brew services restart preternatural`"
-      end
-    end
+    system bin/"preternatural", "daemon", "restart"
   end
 
   service do
@@ -75,5 +45,9 @@ class Preternatural < Formula
     require_root true
     log_path var/"log/preternaturald.log"
     error_log_path var/"log/preternaturald.err.log"
+  end
+
+  test do
+    system bin/"preternatural", "--help"
   end
 end
