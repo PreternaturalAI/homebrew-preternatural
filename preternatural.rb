@@ -2,7 +2,6 @@ class Preternatural < Formula
   desc "Command-line development automation tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
   url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.56/final-artifact.zip"
-  version "0.0.56"
   sha256 "5e71223b1f12ca96548ae6fd92c86406a1823f0db550ab4ba117805a20f5e12f"
 
   def install
