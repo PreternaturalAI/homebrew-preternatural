@@ -30,12 +30,6 @@ class Preternatural < Formula
     end
   end
 
-  def post_install
-    return unless File.exist?("/Library/LaunchDaemons/homebrew.mxcl.preternatural.plist")
-
-    system bin/"preternatural", "daemon", "restart"
-  end
-
   service do
     run [opt_bin/"preternaturald"]
     run_type :immediate
