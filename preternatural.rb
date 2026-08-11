@@ -2,7 +2,7 @@ class Preternatural < Formula
   desc "Command-line development automation tool"
   homepage "https://github.com/PreternaturalAI/homebrew-preternatural"
   url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/preternatural-0.0.56/final-artifact.zip"
-  sha256 "5e71223b1f12ca96548ae6fd92c86406a1823f0db550ab4ba117805a20f5e12f"
+  sha256 "5db4cb80a792ad864f95b22bff91869cf7e361d9b53b73d8dcbc81d14b64b352"
 
   def install
     artifact_root = buildpath/"swift-brew-artifacts"
