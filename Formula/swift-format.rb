@@ -7,7 +7,7 @@ class SwiftFormat < Formula
   depends_on macos: :ventura
 
   def install
-    bin.install "bin/swift-format" => "swift-format"
+    bin.install "swift-format" => "swift-format"
   end
 
   test do
