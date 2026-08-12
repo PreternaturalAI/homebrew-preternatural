@@ -1,6 +1,6 @@
 cask "browser-extension" do
   version "0.1.0"
-  sha256 "4b3feb190c86564196d961f28765662df3f5bf31f590d6a7ce83b452fdb107a2"
+  sha256 "7f3f5eac2bfa137ed6adbbc050dba3c3de69586c708c08107dc0be4a560b3f50"
 
   url "https://github.com/PreternaturalAI/homebrew-preternatural/releases/download/browser-extension-#{version}/browser-extension.zip"
   name "Preternatural Browser Extension"
